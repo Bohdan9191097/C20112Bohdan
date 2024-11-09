@@ -1,3 +1,6 @@
+import random
+
+
 class Student:
     def __init__(self, name: str = "Test", age: float = 0.0, gender: bool = False, money: float = 0.0):
         self.Name = name
@@ -6,31 +9,34 @@ class Student:
         self.Money = money
         self.Studying = False
 
-    def earnMoney(self):
-        for i in range(365):
-            if 150 < i < 240:
-                self.Money += 50
-                print(f"Day {i}: Earned money. Current balance: ${self.Money}")
+    def earnMoney(self, day: int):
+        if 150 <= day < 240:
+            self.Money += 50
+            print(f"Day {day + 1}: Earned money. Current balance: ${self.Money}")
 
-    def spendMoney(self):
-        for i in range(365):
-            if i % 30 == 0:
-                self.Money -= 100
-                print(f"Day {i}: Spent money on necessities. Current balance: ${self.Money}")
+    def spendMoney(self, day: int):
+        if day % 30 == 0:
+            self.Money -= 100
+            print(f"Day {day + 1}: Spent money on necessities. Current balance: ${self.Money}")
 
-    def study(self):
-        for i in range(365):
-            if i % 15 == 0:
-                self.Studying = True
-                print(f"Day {i}: Started studying.")
+    def study(self, day: int):
+        if self.Money >= 500:
+            self.Studying = True
+            print(f"Day {day + 1}: Started studying.")
 
     def liveYear(self):
         for day in range(365):
-            if self.Money < 200:
-                self.earnMoney()
+            print(f"\n--- Day {day + 1} ---")
+            self.spendMoney(day)
+            if random.randint(140, 180) <= day:
+                days_to_earn = random.randint(30, 60)
+                self.earnMoney(day)
             if self.Money >= 500:
-                self.study()
-            self.spendMoney()
+                days_to_study = random.randint(5, 10)
+                self.study(day)
 
-student = Student(name="Alex", age=20, gender=True, money=100.0)
+        print(f"\nYear completed for student {self.Name}. Final balance: ${self.Money}")
+
+
+student = Student(name="Alex", age=20, money=100.0)
 student.liveYear()
